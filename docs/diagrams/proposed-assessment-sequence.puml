@@ -1,0 +1,43 @@
+@startuml
+title Proposed Assessment-to-Review Sequence — Draft
+autonumber
+actor Learner
+actor HR
+participant "Web Application" as Web
+database "Application DB" as DB
+participant "RubroRAG Service" as AI
+
+Learner -> Web : Open assigned assessment
+Web -> DB : Check assignment and attempt policy
+DB --> Web : Permitted assessment snapshot
+Web --> Learner : Instructions and current attempt state
+Learner -> Web : Submit answers
+Web -> Web : Validate deadline and lifecycle state
+Web -> DB : Persist submission atomically
+DB --> Web : Submission ID and status
+Web --> Learner : Submission confirmation
+
+opt Approved AI workflow requested
+  Web -> AI : Send validated request and version metadata
+  AI --> Web : Structured proposal / feedback / errors
+  Web -> DB : Store AI output separately from final HR score
+end
+
+HR -> Web : Review submission and available AI evidence
+Web -> DB : Load submission and review state
+DB --> Web : Submission + versioned output
+Web --> HR : Review workspace
+HR -> Web : Confirm/correct final result
+Web -> DB : Persist HR-owned final score and approval
+HR -> Web : Release result
+Web -> DB : Record release state and audit event
+Learner -> Web : View results
+Web -> DB : Check learner ownership and release state
+DB --> Web : Only permitted released result
+Web --> Learner : Released outcome and feedback
+
+note over Web,DB
+DRAFT. Verify the exact states, transaction boundaries,
+and whether AI scoring is in the approved product scope.
+end note
+@enduml

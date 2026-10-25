@@ -1,0 +1,66 @@
+# Secrets
+.env
+.env.*
+!.env.example
+!.env.*.example
+*.pem
+*.key
+secrets/
+credentials/
+
+# Node / Next.js
+node_modules/
+.next/
+out/
+dist/
+build/
+coverage/
+.npm/
+.turbo/
+
+# Python
+.venv/
+venv/
+env/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Local databases and generated vector stores
+*.sqlite
+*.sqlite3
+*.db
+chroma_db/
+chroma/
+vector_store/
+vector_db/
+storage/local/
+
+# Logs and process files
+*.log
+logs/
+*.pid
+.pids/
+
+# Editor / OS
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Test artifacts / browser profiles
+playwright-report/
+test-results/
+.verification-*/
+.verification*/
+*.trace.zip
+
+# Local exports and private raw data. Review each path before placing data here.
+data/private/
+data/local/
+real-data/private/
+real-data/local/

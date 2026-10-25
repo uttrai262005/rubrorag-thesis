@@ -1,0 +1,51 @@
+@startuml
+title Proposed Component Architecture — Draft
+top to bottom direction
+skinparam shadowing false
+skinparam componentStyle rectangle
+skinparam defaultFontName Arial
+
+package "Next.js Web Application" {
+  [Presentation / Routes] as UI
+  [Authentication + Access Policy] as Auth
+  [Assessment Module] as Assessment
+  [Attempt / Submission Module] as Submission
+  [HR Review / Release Module] as Review
+  [Feedback / Learning Path Module] as Feedback
+  [Reporting + Audit Module] as Reporting
+  [Application Services] as AppSvc
+  [Persistence Adapter] as Repo
+}
+database "PostgreSQL\n(Transactional app state)" as DB
+component "FastAPI Adapter" as API
+component "RubroRAG Pipeline" as Pipeline
+database "Vector Index\n(if confirmed)" as VDB
+
+UI --> Auth
+UI --> Assessment
+UI --> Submission
+UI --> Review
+UI --> Feedback
+UI --> Reporting
+Assessment --> AppSvc
+Submission --> AppSvc
+Review --> AppSvc
+Feedback --> AppSvc
+Reporting --> AppSvc
+Auth --> AppSvc
+AppSvc --> Repo
+Repo --> DB
+Feedback --> API
+API --> Pipeline
+Pipeline --> VDB
+
+note right of Review
+HR final decision and release
+remain application-owned states.
+AI output must not silently overwrite them.
+end note
+
+note bottom
+Proposed module map. Confirm module boundaries and data stores
+during F00/F01 and update based on implementation.
+@enduml

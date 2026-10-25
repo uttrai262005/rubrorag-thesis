@@ -1,0 +1,33 @@
+@startuml
+title Proposed System Context — Draft, not verified as-built
+left to right direction
+skinparam shadowing false
+skinparam componentStyle rectangle
+skinparam defaultFontName Arial
+skinparam packageStyle rectangle
+
+actor Learner
+actor HR
+actor "Authorized Researcher/Admin" as Admin
+
+rectangle "RubroRAG Training & Assessment Platform" {
+  component "Web Application\n(UI + Application Rules)" as Web
+  component "Application Database\n(Transactional State)" as DB
+  component "RubroRAG AI Service\n(Existing pipeline adapter)" as AI
+  database "Vector Store / Knowledge Index\n(if retained after audit)" as Vector
+}
+
+Learner --> Web : Complete assessment\nView released results
+HR --> Web : Manage assessments\nReview and release
+Admin --> Web : Authorized maintenance
+Web --> DB : Persist assignments,\nsubmissions and decisions
+Web --> AI : Validated AI request
+AI --> Vector : Retrieve approved evidence
+AI --> Web : Structured output + metadata
+
+note bottom
+DRAFT: Validate actors, ownership, store and API boundary
+against approved thesis scope and actual source code.
+Do not interpret this as the implementation diagram.
+end note
+@enduml
